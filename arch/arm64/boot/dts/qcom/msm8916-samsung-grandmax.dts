@@ -93,8 +93,7 @@
 		compatible = "imagis,ist3038";
 		reg = <0x50>;
 
-		interrupt-parent = <&tlmm>;
-		interrupts = <13 IRQ_TYPE_EDGE_FALLING>;
+		interrupts-extended = <&tlmm 13 IRQ_TYPE_EDGE_FALLING>;
 
 		touchscreen-size-x = <720>;
 		touchscreen-size-y = <1280>;
@@ -102,8 +101,10 @@
 		vdd-supply = <&reg_vdd_tsp_a>;
 		vddio-supply = <&pm8916_l6>;
 
-		pinctrl-names = "default";
 		pinctrl-0 = <&ts_int_default>;
+		pinctrl-names = "default";
+
+		linux,keycodes = <KEY_APPSELECT KEY_BACK>;
 	};
 };
 
@@ -125,7 +126,11 @@
 };
 
 &reg_touch_key {
-	status = "disabled";
+	status = "disabled"; /* Using Imagis touch key */
+};
+
+&sound {
+	model = "samsung-gmax"; /* No secondary microphone */
 };
 
 &sound {

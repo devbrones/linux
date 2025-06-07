@@ -36,6 +36,7 @@ int pagemap_fd;
 int uffd;
 int page_size;
 int hpage_size;
+const char *progname;
 
 #define LEN(region)	((region.end - region.start)/page_size)
 
@@ -1149,11 +1150,11 @@ int sanity_tests(void)
 	munmap(mem, mem_size);
 
 	/* 9. Memory mapped file */
-	fd = open(__FILE__, O_RDONLY);
+	fd = open(progname, O_RDONLY);
 	if (fd < 0)
 		ksft_exit_fail_msg("%s Memory mapped file\n", __func__);
 
-	ret = stat(__FILE__, &sbuf);
+	ret = stat(progname, &sbuf);
 	if (ret < 0)
 		ksft_exit_fail_msg("error %d %d %s\n", ret, errno, strerror(errno));
 
@@ -1472,16 +1473,18 @@ static void transact_test(int page_size)
 			      extra_thread_faults);
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
 	int mem_size, shmid, buf_size, fd, i, ret;
 	char *mem, *map, *fmem;
 	struct stat sbuf;
 
+	progname = argv[0];
+
 	ksft_print_header();
 
 	if (init_uffd())
-		return ksft_exit_pass();
+		ksft_exit_pass();
 
 	ksft_set_plan(115);
 
@@ -1564,8 +1567,10 @@ int main(void)
 	/* 7. File Hugetlb testing */
 	mem_size = 2*1024*1024;
 	fd = memfd_create("uffd-test", MFD_HUGETLB | MFD_NOEXEC_SEAL);
+	if (fd < 0)
+		ksft_exit_fail_msg("uffd-test creation failed %d %s\n", errno, strerror(errno));
 	mem = mmap(NULL, mem_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-	if (mem) {
+	if (mem != MAP_FAILED) {
 		wp_init(mem, mem_size);
 		wp_addr_range(mem, mem_size);
 
@@ -1657,5 +1662,5 @@ int main(void)
 	userfaultfd_tests();
 
 	close(pagemap_fd);
-	return ksft_exit_pass();
+	ksft_exit_pass();
 }

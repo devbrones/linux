@@ -1,14 +1,13 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
  * Himax HX852x(ES) Touchscreen Driver
- * Copyright (c) 2020-2023 Stephan Gerhold <stephan@gerhold.net>
+ * Copyright (c) 2020-2024 Stephan Gerhold <stephan@gerhold.net>
  * Copyright (c) 2020 Jonathan Albrieux <jonathan.albrieux@gmail.com>
  *
  * Based on the Himax Android Driver Sample Code Ver 0.3 for HMX852xES chipset:
  * Copyright (c) 2014 Himax Corporation.
  */
 
-#include <asm/unaligned.h>
 #include <linux/delay.h>
 #include <linux/gpio/consumer.h>
 #include <linux/i2c.h>
@@ -21,6 +20,7 @@
 #include <linux/module.h>
 #include <linux/of.h>
 #include <linux/regulator/consumer.h>
+#include <linux/unaligned.h>
 
 #define HX852X_COORD_SIZE(fingers)	((fingers) * sizeof(struct hx852x_coord))
 #define HX852X_WIDTH_SIZE(fingers)	ALIGN(fingers, 4)
@@ -123,7 +123,7 @@ static int hx852x_power_on(struct hx852x *hx)
 	gpiod_set_value_cansleep(hx->reset_gpiod, 1);
 	msleep(20);
 	gpiod_set_value_cansleep(hx->reset_gpiod, 0);
-	msleep(20);
+	msleep(50);
 
 	return 0;
 }

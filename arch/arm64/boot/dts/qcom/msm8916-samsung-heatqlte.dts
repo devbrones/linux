@@ -2,7 +2,7 @@
 
 /dts-v1/;
 
-#include "msm8916-samsung-cprime-common.dtsi"
+#include "msm8916-samsung-rossa-common.dtsi"
 
 /*
  * NOTE: The original firmware from Samsung can only boot ARM32 kernels.
@@ -26,10 +26,6 @@
 	charge-term-current-microamp = <150000>;
 	constant-charge-current-max-microamp = <700000>;
 	constant-charge-voltage-max-microvolt = <4350000>;
-};
-
-&mpss_mem {
-	reg = <0x0 0x86800000 0x0 0x5000000>;
 };
 
 &panel {

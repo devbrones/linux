@@ -2,11 +2,11 @@
 
 /dts-v1/;
 
+#include "msm8929-pm8916.dtsi"
 #include "msm8939-wingtech-wt82918.dtsi"
-#include "msm8929.dtsi"
 
 / {
-	model = "Lenovo Vibe K5 (Wingtech WT82918)";
+	model = "Lenovo Vibe K5 (HD) (Wingtech WT82918)";
 	compatible = "wingtech,wt82918hd", "qcom,msm8929";
 	chassis-type = "handset";
 };

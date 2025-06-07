@@ -2,7 +2,7 @@
 
 /dts-v1/;
 
-#include "msm8916-samsung-gprime-common.dtsi"
+#include "msm8916-samsung-fortuna-common.dtsi"
 
 /*
  * NOTE: The original firmware from Samsung can only boot ARM32 kernels.
@@ -18,16 +18,8 @@
 
 / {
 	model = "Samsung Galaxy Grand Prime (SM-G530Y)";
-	compatible = "samsung,fortunaltezt", "samsung,gprime", "qcom,msm8916";
+	compatible = "samsung,fortunaltezt", "samsung,fortuna", "qcom,msm8916";
 	chassis-type = "handset";
-
-	reserved-memory {
-		/* Additional memory used by Samsung firmware modifications */
-		tz-apps@85a00000 {
-			reg = <0x0 0x85a00000 0x0 0x600000>;
-			no-map;
-		};
-	};
 };
 
 &battery {
@@ -45,26 +37,18 @@
 	status = "disabled";
 };
 
-&i2c_nfc {
-	status = "okay";
-};
-
-&mpss_mem {
-	reg = <0x0 0x86800000 0x0 0x5000000>;
-};
-
 &panel {
-	/delete-property/ backlight;
-};
+	/* Actually hx8389c without PWM. There is no other variant */
+	compatible = "samsung,hx8389c-gh9607501a";
 
 &pn547_nfc {
 	status = "okay";
 };
 
 &st_accel {
-	status = "okay";
 	compatible = "st,lis2hh12";
 	mount-matrix = "1",  "0", "0",
 		       "0", "-1", "0",
 		       "0",  "0", "1";
+	status = "okay";
 };

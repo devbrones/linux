@@ -474,13 +474,11 @@ error:
 	return ret;
 }
 
-static int memshare_remove(struct platform_device *pdev)
+static void memshare_remove(struct platform_device *pdev)
 {
 	struct memshare *share = dev_get_drvdata(&pdev->dev);
 
 	qmi_handle_release(&share->qmi);
-
-	return 0;
 }
 
 static const struct of_device_id memshare_of_match[] = {

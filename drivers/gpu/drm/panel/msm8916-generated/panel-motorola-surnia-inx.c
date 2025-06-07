@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-only
-// Copyright (c) 2023 FIXME
+// Copyright (c) 2024 FIXME
 // Generated with linux-mdss-dsi-panel-driver-generator from vendor device tree:
 //   Copyright (c) 2013, The Linux Foundation. All rights reserved. (FIXME)
 
@@ -14,13 +14,13 @@
 #include <drm/drm_mipi_dsi.h>
 #include <drm/drm_modes.h>
 #include <drm/drm_panel.h>
+#include <drm/drm_probe_helper.h>
 
 struct inx_450_v1 {
 	struct drm_panel panel;
 	struct mipi_dsi_device *dsi;
 	struct regulator *supply;
 	struct gpio_desc *reset_gpio;
-	bool prepared;
 };
 
 static inline struct inx_450_v1 *to_inx_450_v1(struct drm_panel *panel)
@@ -99,9 +99,6 @@ static int inx_450_v1_prepare(struct drm_panel *panel)
 	struct device *dev = &ctx->dsi->dev;
 	int ret;
 
-	if (ctx->prepared)
-		return 0;
-
 	ret = regulator_enable(ctx->supply);
 	if (ret < 0) {
 		dev_err(dev, "Failed to enable regulator: %d\n", ret);
@@ -118,7 +115,6 @@ static int inx_450_v1_prepare(struct drm_panel *panel)
 		return ret;
 	}
 
-	ctx->prepared = true;
 	return 0;
 }
 
@@ -128,9 +124,6 @@ static int inx_450_v1_unprepare(struct drm_panel *panel)
 	struct device *dev = &ctx->dsi->dev;
 	int ret;
 
-	if (!ctx->prepared)
-		return 0;
-
 	ret = inx_450_v1_off(ctx);
 	if (ret < 0)
 		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
@@ -138,7 +131,6 @@ static int inx_450_v1_unprepare(struct drm_panel *panel)
 	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
 	regulator_disable(ctx->supply);
 
-	ctx->prepared = false;
 	return 0;
 }
 
@@ -154,25 +146,13 @@ static const struct drm_display_mode inx_450_v1_mode = {
 	.vtotal = 960 + 16 + 2 + 19,
 	.width_mm = 55,
 	.height_mm = 99,
+	.type = DRM_MODE_TYPE_DRIVER,
 };
 
 static int inx_450_v1_get_modes(struct drm_panel *panel,
 				struct drm_connector *connector)
 {
-	struct drm_display_mode *mode;
-
-	mode = drm_mode_duplicate(connector->dev, &inx_450_v1_mode);
-	if (!mode)
-		return -ENOMEM;
-
-	drm_mode_set_name(mode);
-
-	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-	connector->display_info.width_mm = mode->width_mm;
-	connector->display_info.height_mm = mode->height_mm;
-	drm_mode_probed_add(connector, mode);
-
-	return 1;
+	return drm_connector_helper_get_modes_fixed(connector, &inx_450_v1_mode);
 }
 
 static const struct drm_panel_funcs inx_450_v1_panel_funcs = {
@@ -221,9 +201,8 @@ static int inx_450_v1_probe(struct mipi_dsi_device *dsi)
 
 	ret = mipi_dsi_attach(dsi);
 	if (ret < 0) {
-		dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
 		drm_panel_remove(&ctx->panel);
-		return ret;
+		return dev_err_probe(dev, ret, "Failed to attach to DSI host\n");
 	}
 
 	return 0;
@@ -251,7 +230,7 @@ static struct mipi_dsi_driver inx_450_v1_driver = {
 	.probe = inx_450_v1_probe,
 	.remove = inx_450_v1_remove,
 	.driver = {
-		.name = "panel-inx-450-v1",
+		.name = "panel-motorola-surnia-inx",
 		.of_match_table = inx_450_v1_of_match,
 	},
 };

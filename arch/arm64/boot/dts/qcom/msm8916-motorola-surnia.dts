@@ -2,6 +2,7 @@
 
 /dts-v1/;
 
+<<<<<<< HEAD
 #include "msm8916-pm8916.dtsi"
 #include "msm8916-modem-qdsp6.dtsi"
 
@@ -79,6 +80,14 @@
 			syna,sensor-type = <1>; // Touchscreen
 		};
 	};
+=======
+#include "msm8916-motorola-common.dtsi"
+
+/ {
+	model = "Motorola Moto E 2015 LTE";
+	compatible = "motorola,surnia", "qcom,msm8916";
+	chassis-type = "handset";
+>>>>>>> upstream/msm8916/6.12.1
 };
 
 &blsp_i2c4 {
@@ -88,12 +97,21 @@
 		compatible = "maxim,max17050";
 		reg = <0x36>;
 
+<<<<<<< HEAD
+=======
+		interrupts-extended = <&tlmm 12 IRQ_TYPE_EDGE_FALLING>;
+
+		pinctrl-0 = <&battery_alert_default>;
+		pinctrl-names = "default";
+
+>>>>>>> upstream/msm8916/6.12.1
 		maxim,rsns-microohm = <10000>;
 		maxim,over-heat-temp = <600>;
 		maxim,cold-temp = <(-200)>;
 		maxim,dead-volt = <3200>;
 		maxim,over-volt = <4500>;
 
+<<<<<<< HEAD
 		interrupt-parent = <&tlmm>;
 		interrupts = <12 IRQ_TYPE_EDGE_FALLING>;
 
@@ -106,6 +124,11 @@
 	status = "okay";
 };
 
+=======
+	};
+};
+
+>>>>>>> upstream/msm8916/6.12.1
 &gpu {
 	status = "okay";
 };
@@ -143,15 +166,19 @@
 	qcom,dsi-phy-regulator-ldo-mode;
 };
 
+<<<<<<< HEAD
 &mpss_mem {
 	reg = <0x0 0x86800000 0x0 0x5500000>;
 };
 
+=======
+>>>>>>> upstream/msm8916/6.12.1
 &pm8916_codec {
 	qcom,micbias1-ext-cap;
 	qcom,micbias2-ext-cap;
 };
 
+<<<<<<< HEAD
 &pm8916_resin {
 	linux,code = <KEY_VOLUMEDOWN>;
 	status = "okay";
@@ -163,12 +190,16 @@
 		regulator-max-microvolt = <3300000>;
 	};
 
+=======
+&pm8916_rpm_regulators {
+>>>>>>> upstream/msm8916/6.12.1
 	pm8916_l17: l17 {
 		regulator-min-microvolt = <2850000>;
 		regulator-max-microvolt = <2850000>;
 	};
 };
 
+<<<<<<< HEAD
 &pm8916_vib {
 	status = "okay";
 };
@@ -177,14 +208,19 @@
 	status = "okay";
 };
 
+=======
+>>>>>>> upstream/msm8916/6.12.1
 &sdhc_2 {
 	pinctrl-0 = <&sdc2_default &sdc2_cd_default>;
 	pinctrl-1 = <&sdc2_sleep &sdc2_cd_default>;
 	pinctrl-names = "default", "sleep";
 
 	cd-gpios = <&tlmm 25 GPIO_ACTIVE_LOW>;
+<<<<<<< HEAD
 
 	status = "okay";
+=======
+>>>>>>> upstream/msm8916/6.12.1
 };
 
 &sound {
@@ -193,6 +229,7 @@
 		"AMIC3", "MIC BIAS External1";
 };
 
+<<<<<<< HEAD
 &usb {
 	extcon = <&usb_id>, <&usb_id>;
 	status = "okay";
@@ -228,6 +265,15 @@
 };
 &blsp_uart1_sleep {
 	pins = "gpio0", "gpio1";
+=======
+&touchscreen {
+	interrupts-extended = <&tlmm 21 IRQ_TYPE_EDGE_FALLING>;
+
+	vdd-supply = <&pm8916_l16>;
+
+	pinctrl-0 = <&ts_int_default>;
+	pinctrl-names = "default";
+>>>>>>> upstream/msm8916/6.12.1
 };
 
 &tlmm {
@@ -238,6 +284,7 @@
 		bias-pull-up;
 	};
 
+<<<<<<< HEAD
 	gpio_keys_default: gpio-keys-default-state {
 		pins = "gpio107";
 		function = "gpio";
@@ -245,6 +292,8 @@
 		bias-pull-up;
 	};
 
+=======
+>>>>>>> upstream/msm8916/6.12.1
 	mdss_default: mdss-default-state {
 		pins = "gpio78";
 		function = "gpio";
@@ -272,6 +321,7 @@
 		drive-strength = <2>;
 		bias-disable;
 	};
+<<<<<<< HEAD
 
 	usb_id_default: usb-id-default-state {
 		pins = "gpio91";
@@ -286,4 +336,6 @@
 		drive-strength = <8>;
 		bias-disable;
 	};
+=======
+>>>>>>> upstream/msm8916/6.12.1
 };

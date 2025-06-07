@@ -22,7 +22,7 @@
 		stdout-path = "serial0";
 	};
 
-	bat: battery {
+	battery: battery {
 		compatible = "simple-battery";
 		voltage-min-design-microvolt = <3300000>;
 		voltage-max-design-microvolt = <4350000>;
@@ -69,8 +69,7 @@
 		compatible = "bosch,bmc150_accel";
 		reg = <0x11>;
 
-		interrupt-parent = <&tlmm>;
-		interrupts = <115 IRQ_TYPE_EDGE_RISING>;
+		interrupts-extended = <&tlmm 115 IRQ_TYPE_EDGE_RISING>;
 
 		mount-matrix =	 "0", "1", "0",
 				"-1", "0", "0",
@@ -87,8 +86,7 @@
 		compatible = "bosch,bmc150_magn";
 		reg = <0x13>;
 
-		interrupt-parent = <&tlmm>;
-		interrupts = <69 IRQ_TYPE_EDGE_RISING>;
+		interrupts-extended = <&tlmm 69 IRQ_TYPE_EDGE_RISING>;
 
 		vdd-supply = <&pm8916_l17>;
 		vddio-supply = <&pm8916_l6>;
@@ -104,9 +102,10 @@
 	touchscreen@34 {
 		compatible = "melfas,mip4_ts";
 		reg = <0x34>;
-		interrupt-parent = <&tlmm>;
-		interrupts = <13 IRQ_TYPE_EDGE_FALLING>;
+
+		interrupts-extended = <&tlmm 13 IRQ_TYPE_EDGE_FALLING>;
 		ce-gpios = <&tlmm 12 GPIO_ACTIVE_HIGH>;
+
 		pinctrl-0 = <&touchscreen_default>;
 		pinctrl-names = "default";
 	};
@@ -151,7 +150,7 @@
 };
 
 &pm8916_bms {
-	monitored-battery = <&bat>;
+	monitored-battery = <&battery>;
 	power-supplies = <&pm8916_charger>;
 
 	status = "okay";
@@ -161,7 +160,7 @@
 	qcom,fast-charge-safe-current = <700000>;
 	qcom,fast-charge-safe-voltage = <4300000>;
 
-	monitored-battery = <&bat>;
+	monitored-battery = <&battery>;
 	status = "okay";
 };
 

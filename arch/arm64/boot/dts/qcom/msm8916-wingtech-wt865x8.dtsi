@@ -98,12 +98,10 @@
 	status = "okay";
 
 	touchscreen@38 {
-		/* actually FT5336 */
 		compatible = "edt,edt-ft5306";
 		reg = <0x38>;
 
-		interrupt-parent = <&tlmm>;
-		interrupts = <13 IRQ_TYPE_EDGE_FALLING>;
+		interrupts-extended = <&tlmm 13 IRQ_TYPE_EDGE_FALLING>;
 
 		vcc-supply = <&pm8916_l17>;
 		iovcc-supply = <&pm8916_l6>;

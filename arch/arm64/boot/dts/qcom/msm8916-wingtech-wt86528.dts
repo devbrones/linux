@@ -17,8 +17,8 @@
 		pinctrl-names = "default";
 
 		mode-gpios = <&tlmm 119 GPIO_ACTIVE_HIGH>;
-		awinic,mode = <3>;
 		sound-name-prefix = "Speaker Amp L";
+		awinic,mode = <3>;
 	};
 
 	/* right AW8736 */
@@ -29,8 +29,8 @@
 		pinctrl-names = "default";
 
 		mode-gpios = <&tlmm 121 GPIO_ACTIVE_HIGH>;
-		awinic,mode = <3>;
 		sound-name-prefix = "Speaker Amp R";
+		awinic,mode = <3>;
 	};
 
 	gpio-leds {
@@ -75,8 +75,7 @@
 		compatible = "invensense,mpu6880";
 		reg = <0x68>;
 
-		interrupt-parent = <&tlmm>;
-		interrupts = <115 IRQ_TYPE_EDGE_RISING>;
+		interrupts-extended = <&tlmm 115 IRQ_TYPE_EDGE_RISING>;
 
 		vdd-supply = <&pm8916_l17>;
 		vddio-supply = <&pm8916_l6>;
@@ -106,22 +105,20 @@
 
 &sound {
 	model = "wt86528";
-	widgets =
-		"Speaker", "Speaker",
-		"Headphone", "Headphones";
+	widgets = "Speaker", "Speaker",
+		  "Headphone", "Headphones";
 	pin-switches = "Speaker", "Headphones";
-	audio-routing =
-		"Speaker", "Speaker Amp L OUT",
-		"Speaker", "Speaker Amp R OUT",
-		"Speaker Amp L IN", "HPH_L",
-		"Speaker Amp R IN", "HPH_R",
-		"Headphones", "Headphones Switch OUTL",
-		"Headphones", "Headphones Switch OUTR",
-		"Headphones Switch INL", "HPH_L",
-		"Headphones Switch INR", "HPH_R",
-		"AMIC1", "MIC BIAS External1",
-		"AMIC2", "MIC BIAS Internal2",
-		"AMIC3", "MIC BIAS External1";
+	audio-routing = "Speaker", "Speaker Amp L OUT",
+			"Speaker", "Speaker Amp R OUT",
+			"Speaker Amp L IN", "HPH_L",
+			"Speaker Amp R IN", "HPH_R",
+			"Headphones", "Headphones Switch OUTL",
+			"Headphones", "Headphones Switch OUTR",
+			"Headphones Switch INL", "HPH_L",
+			"Headphones Switch INR", "HPH_R",
+			"AMIC1", "MIC BIAS External1",
+			"AMIC2", "MIC BIAS Internal2",
+			"AMIC3", "MIC BIAS External1";
 	aux-devs = <&speaker_amp_left>, <&speaker_amp_right>, <&headphones_switch>;
 };
 

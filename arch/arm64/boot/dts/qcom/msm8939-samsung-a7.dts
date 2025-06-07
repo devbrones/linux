@@ -198,7 +198,7 @@
 		};
 	};
 
-	pwm_vibrator: pwm-vibrator {
+	pwm_vibrator: pwm {
 		compatible = "clk-pwm";
 		#pwm-cells = <2>;
 
@@ -476,6 +476,7 @@
 
 &mdss_dsi0_phy {
 	qcom,dsi-phy-regulator-ldo-mode;
+	status = "okay";
 };
 
 &mpss_mem {

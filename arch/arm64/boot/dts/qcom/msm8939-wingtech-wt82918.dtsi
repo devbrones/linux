@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-only
 
-#include "msm8939-pm8916.dtsi"
 #include "msm8916-modem-qdsp6.dtsi"
 
 #include <dt-bindings/gpio/gpio.h>
@@ -132,18 +131,17 @@
 		compatible = "invensense,icm20608";
 		reg = <0x68>;
 
+		interrupts-extended = <&tlmm 115 IRQ_TYPE_EDGE_FALLING>;
+
 		pinctrl-0 = <&accelerometer_default>;
 		pinctrl-names = "default";
-
-		interrupt-parent = <&tlmm>;
-		interrupts = <115 IRQ_TYPE_EDGE_FALLING>;
 
 		vdd-supply = <&pm8916_l17>;
 		vddio-supply = <&pm8916_l6>;
 
-		mount-matrix = "-1",  "0", "0",
-			       "0", "1", "0",
-			       "0",  "0", "1";
+		mount-matrix = "-1", "0", "0",
+				"0", "1", "0",
+				"0", "0", "1";
 	};
 };
 
@@ -151,15 +149,13 @@
 	status = "okay";
 
 	touchscreen: touchscreen@38 {
-		/* actually FT5336 */
 		compatible = "edt,edt-ft5306";
 		reg = <0x38>;
 
+		interrupts-extended = <&tlmm 13 IRQ_TYPE_LEVEL_LOW>;
+
 		pinctrl-0 = <&touchscreen_default>;
 		pinctrl-names = "default";
-
-		interrupt-parent = <&tlmm>;
-		interrupts = <13 IRQ_TYPE_LEVEL_LOW>;
 
 		vcc-supply = <&pm8916_l17>;
 		iovcc-supply = <&pm8916_l6>;

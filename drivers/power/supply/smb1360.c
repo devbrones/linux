@@ -395,7 +395,7 @@ static s64 float_decode(u16 reg)
 }
 
 #define MAX_MANTISSA (1023 * 1000000ULL)
-unsigned int float_encode(s64 float_val)
+static unsigned int float_encode(s64 float_val)
 {
 	int exponent = 0, sign = 0;
 	unsigned int final_val = 0;
