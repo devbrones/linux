@@ -1,3 +1,11 @@
+# Linux Mainline for LG Wine Smart (2015)
+# :warning: Untested at the moment  :warning:
+
+This repo is a fork of h410-mainline/linux - and has been merged with msm8916-mainline/linux.
+
+
+
+
 Linux kernel
 ============
 
